@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2 class="main">Scintific Calculator</h2>
+    <div class="calculator">
+        <input type="text" id="display" class="display" disabled>
+        <div class="buttons">
+            <button onclick="clearDisplay()" class="clear">AC</button>
+            <button onclick="backspace()">←</button>
+            <button onclick="append('%')">%</button>
+            <button onclick="append('/')" class="operator">/</button>
+
+            <button onclick="append('7')">7</button>
+            <button onclick="append('8')">8</button>
+            <button onclick="append('9')">9</button>
+            <button onclick="append('*')" class="operator">*</button>
+
+            <button onclick="append('4')">4</button>
+            <button onclick="append('5')">5</button>
+            <button onclick="append('6')">6</button>
+            <button onclick="append('-')" class="operator">-</button>
+
+            <button onclick="append('1')">1</button>
+            <button onclick="append('2')">2</button>
+            <button onclick="append('3')">3</button>
+            <button onclick="append('+')" class="operator">+</button>
+
+            <button onclick="append('(')">(</button>
+            <button onclick="append('0')">0</button>
+            <button onclick="append(')')">)</button>
+            <button onclick="calculate()">=</button>
+
+            <button onclick="append('Math.sqrt(')" class="special">√</button>
+            <button onclick="append('Math.abs(')" class="special">|x|</button>
+            <button onclick="append('Math.log10(')" class="special">log</button>
+            <button onclick="append('Math.log(')" class="special">ln</button>
+
+            <button onclick="append('Math.sin(')" class="special">sin</button>
+            <button onclick="append('Math.cos(')" class="special">cos</button>
+            <button onclick="append('Math.tan(')" class="special">tan</button>
+            <button onclick="append('%')" class="special">mod</button>
+
+            <button onclick="append(Math.E)" class="special">e</button>
+            <button onclick="append('**')" class="special">^</button>
+            <button onclick="append('**2')" class="special">x²</button>
+            <button onclick="append('factorial(')" class="special">x!</button>
+        </div>
+    </div>
+    <script>
+        const display = document.getElementById('display');
+        
+        // Append input to display
+        function append(value) {
+            display.value += value;
+        }
+        
+        // Clear the display
+        function clearDisplay() {
+            display.value = '';
+        }
+        
+        // Remove last character
+        function backspace() {
+            display.value = display.value.slice(0, -1);
+        }
+        
+        // Calculate result (safely)
+        function calculate() {
+            try {
+                // Allow only basic math operations (+, -, *, /, %) and numbers
+                const sanitizedValue = display.value.replace(/[^0-9+\-*\/%.]/g, '');
+                
+                // Validate expression
+                if (!sanitizedValue) {
+                    display.value = 'Error: Empty';
+                    return;
+                }
+        
+                // Use Function constructor instead of eval for safety
+                display.value = new Function('return ' + sanitizedValue)();
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+        </script>
+   
+</body>
+</html>
